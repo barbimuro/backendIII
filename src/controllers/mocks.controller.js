@@ -5,12 +5,12 @@ import Pet from '../dao/Pets.dao.js';
 import { usersService, petsService } from '../services/index.js';
 
 
-export const mockingPets = async (req, res) => {
+export const mockingPets =  (req, res) => {
     const pets = createPets(100);
     res.status(200).json(pets);
 };
 
-export const mockingUsers = async (req, res) => {
+export const mockingUsers =  (req, res) => {
     const users = createUsers(50);
     res.status(200).json(users);
 }

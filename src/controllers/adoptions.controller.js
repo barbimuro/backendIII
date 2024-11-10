@@ -6,14 +6,20 @@ const getAllAdoptions = async(req,res)=>{
 }
 
 const getAdoption = async(req,res)=>{
-    const adoptionId = req.params.aid;
-    const adoption = await adoptionsService.getBy({_id:adoptionId})
-    if(!adoption) return res.status(404).send({status:"error",error:"Adoption not found"})
-    res.send({status:"success",payload:adoption})
+    try {
+        const adoptionId = req.params.aid;
+        const adoption = await adoptionsService.getBy({_id:adoptionId})
+        if(!adoption) return res.status(404).send({status:"error",error:"Adoption not found"})
+        res.send({status:"success",payload:adoption})
+    } catch (error) {
+        return res.status(500).send({ status: "error", error: "Internal server error" })
+    }
+
 }
 
 const createAdoption = async(req,res)=>{
-    const {uid,pid} = req.params;
+    try {
+        const {uid,pid} = req.params;
     const user = await usersService.getUserById(uid);
     if(!user) return res.status(404).send({status:"error", error:"user Not found"});
     const pet = await petsService.getBy({_id:pid});
@@ -24,6 +30,10 @@ const createAdoption = async(req,res)=>{
     await petsService.update(pet._id,{adopted:true,owner:user._id})
     await adoptionsService.create({owner:user._id,pet:pet._id})
     res.send({status:"success",message:"Pet adopted"})
+    } catch (error) {
+        return res.status(500).send({ status: "error", error: "Internal server error" }) 
+    }
+    
 }
 
 export default {

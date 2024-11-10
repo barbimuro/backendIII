@@ -6,9 +6,7 @@ import {mockingPets, mockingUsers, generateData} from '../controllers/mocks.cont
 const router = Router()
 
 router.get('/mockingpets', mockingPets);
-
 router.get('/mockingusers', mockingUsers);
-
 router.post('/generateData', generateData)
 
 
